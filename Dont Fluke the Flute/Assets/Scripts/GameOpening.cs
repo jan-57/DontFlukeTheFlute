@@ -5,16 +5,18 @@ using System.Collections;
 public class GameOpening : MonoBehaviour
 {
     public GameObject IntroSoundSrc;
-    public Canvas IntroCanvas;
+    public GameObject IntroCanvas;
     public GameObject IntroButton;
     public float flashInterval = 0.5f;
+    public GameObject GameCanvas;
 
     private Coroutine flashCoroutine;
 
     void Start()
     {
         IntroSoundSrc.SetActive(true);
-        IntroCanvas.enabled = true;
+        IntroCanvas.SetActive(true);
+        GameCanvas.SetActive(false);
         flashCoroutine = StartCoroutine(FlashRoutine());
     }
 
@@ -28,13 +30,13 @@ public class GameOpening : MonoBehaviour
 
     void CloseOpeningCanvas()
     {
-        IntroCanvas.enabled = false;
-        IntroSoundSrc.SetActive(false);
-
         if (flashCoroutine != null)
         {
             StopCoroutine(flashCoroutine);
             IntroButton.SetActive(false);
+            IntroCanvas.SetActive(false); 
+            IntroSoundSrc.SetActive(false);
+            GameCanvas.SetActive(true);
         }
     }
 
