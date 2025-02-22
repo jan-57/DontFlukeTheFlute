@@ -1,0 +1,45 @@
+{
+    "name": "Nokia Controls",
+    "maps": [
+        {
+            "name": "Buttons",
+            "id": "0e0179b8-510f-4cda-bd3b-c9d22a6ba51e",
+            "actions": [
+                {
+                    "name": "Hit",
+                    "type": "Button",
+                    "id": "4cf9e06b-1804-4d0a-9774-197ebc67c0c9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "811d4243-d1ee-4678-9199-63114135a4f0",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "306d83ac-70f8-47d8-807c-eaaeb756af03",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
