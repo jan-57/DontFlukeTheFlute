@@ -9,6 +9,8 @@ public class GameOpening : MonoBehaviour
     public GameObject IntroButton;
     public float flashInterval = 0.5f;
     public GameObject GameCanvas;
+    public GameObject Selection1;
+    public GameObject Selection2;
 
     private Coroutine flashCoroutine;
 
@@ -17,6 +19,8 @@ public class GameOpening : MonoBehaviour
         IntroSoundSrc.SetActive(true);
         IntroCanvas.SetActive(true);
         GameCanvas.SetActive(false);
+        Selection1.SetActive(false);
+        Selection2.SetActive(false);
         flashCoroutine = StartCoroutine(FlashRoutine());
     }
 
@@ -24,10 +28,53 @@ public class GameOpening : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            CloseOpeningCanvas();
+            // CloseOpeningCanvas();
+            GameSelection1();
         }
     }
 
+    
+    // WHEN YOU PRESS SPACE TO SKIP IT AUTOMATICALLY GOES TO THE 2ND MUSIC CHOICE SO IM TRYING TO FIX THAT RN!! KIND OF TIRED OF UNITY WILL WORK ON THIS LATER - JANEK 
+
+    void GameSelection1()
+    {
+        
+        Selection1.SetActive(true);
+        
+        StopCoroutine(flashCoroutine);
+        IntroButton.SetActive(false);
+        IntroCanvas.SetActive(false); 
+        IntroSoundSrc.SetActive(false);
+        GameCanvas.SetActive(false);
+        Selection2.SetActive(false);
+        
+        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // CloseOpeningCanvas();
+            GameSelection2();
+        }
+    }
+
+
+    void GameSelection2()
+    {
+        Selection2.SetActive(true);
+        
+        StopCoroutine(flashCoroutine);
+        IntroButton.SetActive(false);
+        IntroCanvas.SetActive(false); 
+        IntroSoundSrc.SetActive(false);
+        GameCanvas.SetActive(false);
+        Selection1.SetActive(false);
+        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // CloseOpeningCanvas();
+            CloseOpeningCanvas();
+        }
+    }
+    
     void CloseOpeningCanvas()
     {
         if (flashCoroutine != null)
