@@ -39,6 +39,65 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "test",
+            "id": "f8fc7fb3-33dc-4976-8782-be4c635302a8",
+            "actions": [
+                {
+                    "name": "up",
+                    "type": "Button",
+                    "id": "190a9f38-744f-4544-be15-7daaf1fe12db",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "New action1",
+                    "type": "Button",
+                    "id": "3322a8a8-dcb0-48ca-9e13-f8051bb5139f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "01a8e8e6-c0a7-4130-91fc-e9f8d584f6b1",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "up",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "13d68805-f293-47b1-9142-4c2771dabcfa",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "up",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0cf3b979-d58a-43a1-bb74-6b1394e236dd",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
