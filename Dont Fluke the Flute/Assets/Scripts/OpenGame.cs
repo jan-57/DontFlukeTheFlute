@@ -16,15 +16,17 @@ public class OpenGame : MonoBehaviour
         canvases[1].enabled = false;
         canvases[2].enabled = false;
         canvases[3].enabled = false;
-
-        PressEnter.action.Disable();
-        ScrollUp.action.Disable();
-        ScrollDown.action.Disable();
+        
+        
+        PressEnter.action.Enable();
+        ScrollUp.action.Enable();
+        ScrollDown.action.Enable();
+        
     }
 
     void Update()
     {
-        if (canvases[0].enabled == true)
+        if (ActiveCanvas == 0)
         {
             PressEnter.action.Enable();
             ScrollUp.action.Disable();
@@ -32,14 +34,12 @@ public class OpenGame : MonoBehaviour
 
             if (PressEnter.action.triggered)
             {
+                ActiveCanvas = 1;
                 canvases[0].enabled = false;
-                canvases[1].enabled = true;
-                canvases[2].enabled = false;
-                canvases[3].enabled = false;
             }
         }
 
-        if (canvases[1].enabled == true)
+        else if (ActiveCanvas == 1)
         {
             PressEnter.action.Enable();
             ScrollUp.action.Disable();
@@ -47,22 +47,19 @@ public class OpenGame : MonoBehaviour
             
             if (PressEnter.action.triggered)
             {
-                canvases[0].enabled = false;
+                ActiveCanvas = 3;
                 canvases[1].enabled = false;
-                canvases[2].enabled = false;
-                canvases[3].enabled = true;
             }
             
             if (ScrollDown.action.triggered)
             {
-                canvases[0].enabled = false;
+                ActiveCanvas = 2;
                 canvases[1].enabled = false;
-                canvases[2].enabled = true;
-                canvases[3].enabled = false;
+
             }
         }
 
-        if (canvases[2].enabled == true)
+        else if (ActiveCanvas == 2)
         {
             PressEnter.action.Enable();
             ScrollUp.action.Enable();
@@ -70,26 +67,17 @@ public class OpenGame : MonoBehaviour
             
             if (PressEnter.action.triggered)
             {
-                canvases[0].enabled = false;
-                canvases[1].enabled = false;
+                ActiveCanvas = 3;
                 canvases[2].enabled = false;
-                canvases[3].enabled = true;
             }
             
             if (ScrollUp.action.triggered)
             {
-                canvases[0].enabled = false;
-                canvases[1].enabled = true;
+                ActiveCanvas = 1;
                 canvases[2].enabled = false;
-                canvases[3].enabled = false;
             }
         }
-
-        if (canvases[3].enabled == true)
-        {
-            PressEnter.action.Disable();
-            ScrollUp.action.Disable();
-            ScrollDown.action.Disable();
-        }
+        
+        
     }
 }
