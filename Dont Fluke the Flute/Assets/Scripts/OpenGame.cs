@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,7 +9,7 @@ public class OpenGame : MonoBehaviour
     [SerializeField] private InputActionReference ScrollUp;
     [SerializeField] private InputActionReference ScrollDown;
 
-    private int ActiveCanvas = 0;
+    private int activeCanvas = 0;
 
     void Start()
     {
@@ -17,67 +18,72 @@ public class OpenGame : MonoBehaviour
         canvases[2].enabled = false;
         canvases[3].enabled = false;
         
+    }
+
+    private void OnEnable()
+    {
+        PressEnter.action.performed += EnterPressed;
+        ScrollUp.action.performed += ScrollUpPressed;
+        ScrollDown.action.performed += ScrollDownPressed;
         
-        PressEnter.action.Enable();
-        ScrollUp.action.Enable();
-        ScrollDown.action.Enable();
+    }
+    
+    private void OnDisable()
+    {
+        PressEnter.action.performed -= EnterPressed;
+        ScrollUp.action.performed -= ScrollUpPressed;
+        ScrollDown.action.performed -= ScrollDownPressed;
         
     }
 
+   private void EnterPressed(InputAction.CallbackContext context)
+    {
+        switch (activeCanvas)
+        {
+            case 0:
+                ChangeCanvas(1);
+                break;
+            
+            case 1:
+                ChangeCanvas(3);
+                break;
+            
+            case 2:
+                ChangeCanvas(3);
+                break;
+            
+        }
+    }
+
+    private void ScrollUpPressed(InputAction.CallbackContext context)
+    {
+        switch (activeCanvas)
+        {
+            case 2:
+                ChangeCanvas(1);
+                break;
+        }
+    }
+
+    private void ScrollDownPressed(InputAction.CallbackContext context)
+    {
+        switch (activeCanvas)
+        {
+            case 1:
+                ChangeCanvas(2);
+                break;
+        }
+    }
+
+    void ChangeCanvas(int newCanvasIndex)
+    {
+        canvases[activeCanvas].enabled = false;
+        canvases[newCanvasIndex].enabled = true;
+    }
+
+
     void Update()
     {
-        if (ActiveCanvas == 0)
-        {
-            PressEnter.action.Enable();
-            ScrollUp.action.Disable();
-            ScrollDown.action.Disable();
-
-            if (PressEnter.action.triggered)
-            {
-                ActiveCanvas = 1;
-                canvases[0].enabled = false;
-            }
-        }
-
-        else if (ActiveCanvas == 1)
-        {
-            PressEnter.action.Enable();
-            ScrollUp.action.Disable();
-            ScrollDown.action.Enable();
-            
-            if (PressEnter.action.triggered)
-            {
-                ActiveCanvas = 3;
-                canvases[1].enabled = false;
-            }
-            
-            if (ScrollDown.action.triggered)
-            {
-                ActiveCanvas = 2;
-                canvases[1].enabled = false;
-
-            }
-        }
-
-        else if (ActiveCanvas == 2)
-        {
-            PressEnter.action.Enable();
-            ScrollUp.action.Enable();
-            ScrollDown.action.Disable();
-            
-            if (PressEnter.action.triggered)
-            {
-                ActiveCanvas = 3;
-                canvases[2].enabled = false;
-            }
-            
-            if (ScrollUp.action.triggered)
-            {
-                ActiveCanvas = 1;
-                canvases[2].enabled = false;
-            }
-        }
-        
         
     }
 }

@@ -1812,6 +1812,7 @@ GameObject:
   - component: {fileID: 661288252}
   - component: {fileID: 661288251}
   - component: {fileID: 661288253}
+  - component: {fileID: 661288254}
   m_Layer: 0
   m_Name: EmptyStartCanvas
   m_TagString: Untagged
@@ -1872,6 +1873,20 @@ MonoBehaviour:
   PressEnter: {fileID: 5328609124559159336, guid: ffa8fcc66848af14492457c8ded4e9b3, type: 3}
   ScrollUp: {fileID: 5328609124559159336, guid: ffa8fcc66848af14492457c8ded4e9b3, type: 3}
   ScrollDown: {fileID: 5328609124559159336, guid: ffa8fcc66848af14492457c8ded4e9b3, type: 3}
+--- !u!114 &661288254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661288250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e250a8cdf5ffe64f8ba14cdfe16245b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashInterval: 0.5
+  IntroButton: {fileID: 1683738550}
 --- !u!1 &686106694
 GameObject:
   m_ObjectHideFlags: 0
