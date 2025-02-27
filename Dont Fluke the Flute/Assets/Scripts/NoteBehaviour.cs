@@ -5,6 +5,15 @@ public class NoteBehaviour : MonoBehaviour
 {
     private float speed;
     [SerializeField] private int lanePositionIndex;
+    [SerializeField] private PlayerInput playerInput;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        this.gameObject.tag = other.tag;
+        
+        playerInput.NoteUpdate(lanePositionIndex + 1,this.gameObject.tag, this.gameObject);
+        
+    }
 
     private void OnEnable()
     {

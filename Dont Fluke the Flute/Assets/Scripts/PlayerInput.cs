@@ -20,6 +20,8 @@ public class PlayerInput : MonoBehaviour // yes, this code is cursed, i know
     [SerializeField] private GameObject[] lane2Objects;
     [SerializeField] private GameObject[] lane3Objects;
     [SerializeField] private GameObject[] lane4Objects;
+    [SerializeField] private GameObject dummyObject;
+    [SerializeField] private PointSystem pointSystem;
 
     private void OnEnable()
     {
@@ -49,49 +51,90 @@ public class PlayerInput : MonoBehaviour // yes, this code is cursed, i know
     private void PerformHit(InputAction.CallbackContext context) 
     {
 
-
+        
 
     }
 
     private void Left(InputAction.CallbackContext context)
     {
-
+        pointSystem.HandlePress(lane1[0]);
     }
 
     private void Right(InputAction.CallbackContext context)
     {
-
+        pointSystem.HandlePress(lane2[0]);
     }
 
     private void Up(InputAction.CallbackContext context)
     {
-
+        pointSystem.HandlePress(lane3[0]);
     }
 
     private void Down(InputAction.CallbackContext context)
     {
-
+        pointSystem.HandlePress(lane4[0]);
     }
 
     public void NoteUpdate(int lane, string newHitType, GameObject note)
     {
-        if(newHitType == "fast") //register new hittable note
+        
+        if(newHitType == "bruh") //register new hittable note
         {
             ChangeHitType(lane, newHitType, currentActiveNotesPerLane[lane - 1]);
             currentActiveNotesPerLane[lane - 1]++;
             note.GetComponent<NoteBehaviour>().SetPositionIndex(currentActiveNotesPerLane[lane - 1] - 1);
         }
-        else if(newHitType == "good" || newHitType == "late")
+        else if(newHitType == "fast" || newHitType == "good" || newHitType == "late")
         {
             ChangeHitType(lane, newHitType, note.GetComponent<NoteBehaviour>().GetPositionIndex());
         }
-        else // miss
+        else if(newHitType == "miss")
         {
             DestroyNote(lane - 1, 0); // destroys oldest object in lane
 
+           
+
             for (int i = 0; i < currentActiveNotesPerLane[lane - 1] - 1; i++)
             {
-              //  string temp = 
+              
+
+                    switch (lane)
+                {
+                    case 1:
+                        lane1[i] = lane1[i + 1];
+                        break;
+
+                    case 2:
+                        lane2[i] = lane2[i + 1];
+                        break;
+
+                    case 3:
+                        lane3[i] = lane3[i + 1];
+                        break;
+
+                    case 4:
+                        lane4[i] = lane4[i + 1];
+                        break;
+                }
+            }
+
+            switch (lane)
+            {
+                case 1:
+                    lane1[lane1.Length - 1] = "bruh";
+                    break;
+
+                case 2:
+                    lane2[lane2.Length - 1] = "bruh";
+                    break;
+
+                case 3:
+                    lane3[lane3.Length - 1] = "bruh";
+                    break;
+
+                case 4:
+                    lane4[lane4.Length - 1] = "bruh";
+                    break;
             }
         }
     }
@@ -137,18 +180,22 @@ public class PlayerInput : MonoBehaviour // yes, this code is cursed, i know
         {
             case 0:
                 Destroy(lane1Objects[index]);
+                currentActiveNotesPerLane[0]--;
                 break;
 
             case 1:
                 Destroy(lane2Objects[index]);
+                currentActiveNotesPerLane[1]--;
                 break;
 
             case 2:
                 Destroy(lane3Objects[index]);
+                currentActiveNotesPerLane[2]--;
                 break;
 
             case 3:
                 Destroy(lane4Objects[index]);
+                currentActiveNotesPerLane[3]--;
                 break;
         }
     }

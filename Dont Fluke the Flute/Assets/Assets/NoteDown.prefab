@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 7680983666975269673}
   m_Layer: 0
   m_Name: NoteDown
-  m_TagString: Untagged
+  m_TagString: bruh
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,6 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e8e803c475c00439c2e6483e8454d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lanePositionIndex: 0
 --- !u!1 &9033828151921017378
 GameObject:
   m_ObjectHideFlags: 0
