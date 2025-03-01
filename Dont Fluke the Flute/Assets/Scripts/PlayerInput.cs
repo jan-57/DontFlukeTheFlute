@@ -1,204 +1,141 @@
-using System;
-using System.Transactions;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
-public class PlayerInput : MonoBehaviour // yes, this code is cursed, i know
+public class PlayerInput : MonoBehaviour
 {
-    [SerializeField] private InputActionReference hit;
+    [SerializeField] private InputActionReference hit; // Für eventuelle globale Logik
     [SerializeField] private InputActionReference left;
-    [SerializeField] private InputActionReference right;
     [SerializeField] private InputActionReference up;
     [SerializeField] private InputActionReference down;
-    [SerializeField] private string[] lane1 = { "null", "null", "null", "null", "null", "null", "null", "null", "null", "null" }; //didn't use an array array in order to be able to see the current state in the unity inspector in runtime
-    [SerializeField] private string[] lane2 = { "null", "null", "null", "null", "null", "null", "null", "null", "null", "null" };
-    [SerializeField] private string[] lane3 = { "null", "null", "null", "null", "null", "null", "null", "null", "null", "null" };
-    [SerializeField] private string[] lane4 = { "null", "null", "null", "null", "null", "null", "null", "null", "null", "null" };
-    [SerializeField] private int[] currentActiveNotesPerLane = {0,0,0,0};
-    [SerializeField] private GameObject[] lane1Objects;
-    [SerializeField] private GameObject[] lane2Objects;
-    [SerializeField] private GameObject[] lane3Objects;
-    [SerializeField] private GameObject[] lane4Objects;
-    [SerializeField] private GameObject dummyObject;
+    [SerializeField] private InputActionReference right;
+
     [SerializeField] private PointSystem pointSystem;
+
+    // 4 Lanes, jeweils als Liste der aktiven Noten (NoteBehaviour)
+    private List<NoteBehaviour>[] lanes = new List<NoteBehaviour>[4];
+
+    private void Awake()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            lanes[i] = new List<NoteBehaviour>();
+        }
+    }
 
     private void OnEnable()
     {
-        hit.action.performed += PerformHit;
-        left.action.performed += Left;
-        right.action.performed += Right;
-        up.action.performed += Up;
-        down.action.performed += Down;
-
-        for (int i = 0; i < 4; i++)
-        {
-            currentActiveNotesPerLane[i] = 0;
-        }
+        hit.action.performed += OnHit;
+        left.action.performed += OnLeft;
+        up.action.performed += OnUp;
+        down.action.performed += OnDown;
+        right.action.performed += OnRight;
     }
 
     private void OnDisable()
     {
-        hit.action.performed -= PerformHit;
-        left.action.performed -= Left;
-        right.action.performed -= Right;
-        up.action.performed -= Up;
-        down.action.performed -= Down;
+        hit.action.performed -= OnHit;
+        left.action.performed -= OnLeft;
+        up.action.performed -= OnUp;
+        down.action.performed -= OnDown;
+        right.action.performed -= OnRight;
     }
 
-
-
-    private void PerformHit(InputAction.CallbackContext context) 
+    // Registriert eine neu gespawnte Note in der entsprechenden Lane (lane: 1 bis 4)
+    public void RegisterNote(int lane, NoteBehaviour note)
     {
-
-        
-
-    }
-
-    private void Left(InputAction.CallbackContext context)
-    {
-        pointSystem.HandlePress(lane1[0]);
-    }
-
-    private void Right(InputAction.CallbackContext context)
-    {
-        pointSystem.HandlePress(lane2[0]);
-    }
-
-    private void Up(InputAction.CallbackContext context)
-    {
-        pointSystem.HandlePress(lane3[0]);
-    }
-
-    private void Down(InputAction.CallbackContext context)
-    {
-        pointSystem.HandlePress(lane4[0]);
-    }
-
-    public void NoteUpdate(int lane, string newHitType, GameObject note)
-    {
-        
-        if(newHitType == "bruh") //register new hittable note
+        int index = lane - 1;
+        if (index >= 0 && index < lanes.Length)
         {
-            ChangeHitType(lane, newHitType, currentActiveNotesPerLane[lane - 1]);
-            currentActiveNotesPerLane[lane - 1]++;
-            note.GetComponent<NoteBehaviour>().SetPositionIndex(currentActiveNotesPerLane[lane - 1] - 1);
+            lanes[index].Add(note);
+            Debug.Log($"Note '{note.gameObject.name}' registriert in Lane {lane}. Gesamtanzahl: {lanes[index].Count}");
         }
-        else if(newHitType == "fast" || newHitType == "good" || newHitType == "late")
+        else
         {
-            ChangeHitType(lane, newHitType, note.GetComponent<NoteBehaviour>().GetPositionIndex());
-        }
-        else if(newHitType == "miss")
-        {
-            DestroyNote(lane - 1, 0); // destroys oldest object in lane
-
-           
-
-            for (int i = 0; i < currentActiveNotesPerLane[lane - 1] - 1; i++)
-            {
-              
-
-                    switch (lane)
-                {
-                    case 1:
-                        lane1[i] = lane1[i + 1];
-                        break;
-
-                    case 2:
-                        lane2[i] = lane2[i + 1];
-                        break;
-
-                    case 3:
-                        lane3[i] = lane3[i + 1];
-                        break;
-
-                    case 4:
-                        lane4[i] = lane4[i + 1];
-                        break;
-                }
-            }
-
-            switch (lane)
-            {
-                case 1:
-                    lane1[lane1.Length - 1] = "bruh";
-                    break;
-
-                case 2:
-                    lane2[lane2.Length - 1] = "bruh";
-                    break;
-
-                case 3:
-                    lane3[lane3.Length - 1] = "bruh";
-                    break;
-
-                case 4:
-                    lane4[lane4.Length - 1] = "bruh";
-                    break;
-            }
+            Debug.LogError("Ungültige Lane in RegisterNote: " + lane);
         }
     }
 
-    private void ChangeHitType(int lane, string newHitType, int noteIndex)
+    // Wird von einer Note aufgerufen, wenn sie den Miss-Collider berührt.
+    public void NoteMissed(int lane, NoteBehaviour note)
     {
-        switch (lane)
+        int index = lane - 1;
+        Debug.Log($"NoteMissed: Note '{note.gameObject.name}' in Lane {lane} hat den Miss-Collider erreicht. (Berechneter Index: {index})");
+
+        // Falls der berechnete Index ungültig ist, loggen wir einen Fehler
+        if (!(index >= 0 && index < lanes.Length))
         {
-            case 1:
-                lane1[noteIndex] = newHitType;
-                break;
+            Debug.LogError($"Ungültiger Lane-Index: {index}. Möglicherweise wurde die Lane-Nummer der Note nicht korrekt gesetzt (Lane: {lane}).");
+            return;
+        }
 
-            case 2:
-                lane2[noteIndex] = newHitType;
-                break;
-
-            case 3:
-                lane3[noteIndex] = newHitType;
-                break;
-
-            case 4:
-                lane4[noteIndex] = newHitType;
-                break;
+        if (lanes[index].Contains(note))
+        {
+            lanes[index].Remove(note);
+            Debug.Log($"Note '{note.gameObject.name}' aus Lane {lane} entfernt (Miss).");
+            pointSystem.HandlePress("miss");
+            Destroy(note.gameObject);
+            Debug.Log($"Note '{note.gameObject.name}' zerstört (Miss).");
+        }
+        else
+        {
+            Debug.LogWarning($"Note '{note.gameObject.name}' nicht in Lane {lane} gefunden bei NoteMissed.");
         }
     }
 
-    public void NoteReset()
-    {
-        for (int lane = 0; lane < 4; lane++)
-        {
-            for (int index = 0; index < currentActiveNotesPerLane[lane]; index++)
-            {
-                DestroyNote(lane, index);
-            }
 
-            currentActiveNotesPerLane[lane] = 0;
+    // Wird beim Tastendruck in einer Lane aufgerufen.
+    // Verarbeitet den untersten (ältesten) Noteneintrag in der jeweiligen Lane.
+    private void HandleLaneHit(int lane)
+    {
+        int index = lane - 1;
+        Debug.Log($"HandleLaneHit: Taste für Lane {lane} gedrückt.");
+        if (index < 0 || index >= lanes.Length)
+        {
+            Debug.LogError("Ungültige Lane in HandleLaneHit: " + lane);
+            return;
+        }
+        if (lanes[index].Count > 0)
+        {
+            NoteBehaviour note = lanes[index][0];
+            string hitState = note.gameObject.tag;
+            Debug.Log($"Verarbeite Treffer in Lane {lane} für Note '{note.gameObject.name}' mit Zustand '{hitState}'.");
+            pointSystem.HandlePress(hitState);
+            lanes[index].RemoveAt(0);
+            Destroy(note.gameObject);
+            Debug.Log($"Note '{note.gameObject.name}' zerstört nach Treffer in Lane {lane}.");
+        }
+        else
+        {
+            Debug.Log($"Keine Note in Lane {lane} zum Treffen gefunden. Registriere Miss.");
+            pointSystem.HandlePress("miss");
         }
     }
 
-    private void DestroyNote(int lane, int index)
+    // Input-Callbacks – hier wird die jeweilige Lane abgearbeitet.
+    private void OnLeft(InputAction.CallbackContext context)
     {
-        switch (lane)
-        {
-            case 0:
-                Destroy(lane1Objects[index]);
-                currentActiveNotesPerLane[0]--;
-                break;
-
-            case 1:
-                Destroy(lane2Objects[index]);
-                currentActiveNotesPerLane[1]--;
-                break;
-
-            case 2:
-                Destroy(lane3Objects[index]);
-                currentActiveNotesPerLane[2]--;
-                break;
-
-            case 3:
-                Destroy(lane4Objects[index]);
-                currentActiveNotesPerLane[3]--;
-                break;
-        }
+        HandleLaneHit(1);
     }
 
-   
+    private void OnUp(InputAction.CallbackContext context)
+    {
+        HandleLaneHit(2);
+    }
+
+    private void OnDown(InputAction.CallbackContext context)
+    {
+        HandleLaneHit(3);
+    }
+
+    private void OnRight(InputAction.CallbackContext context)
+    {
+        HandleLaneHit(4);
+    }
+
+    // Diese Methode bleibt aktuell ungenutzt – kann aber für globale Hit-Logik dienen.
+    private void OnHit(InputAction.CallbackContext context)
+    {
+    }
 }
+
