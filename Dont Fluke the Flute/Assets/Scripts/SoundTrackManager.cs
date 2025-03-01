@@ -2,15 +2,18 @@ using UnityEngine;
 
 public class SoundTrackManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private Nokia controls;
+
+    public void ActivateGameControls() 
     {
+    
         
+
+    }
+    public void StartSoundTrack(int songID) 
+    {
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

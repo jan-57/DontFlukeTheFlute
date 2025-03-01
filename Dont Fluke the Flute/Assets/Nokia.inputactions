@@ -2,7 +2,7 @@
     "name": "Nokia",
     "maps": [
         {
-            "name": "GameplayControls",
+            "name": "gameplay",
             "id": "0e0179b8-510f-4cda-bd3b-c9d22a6ba51e",
             "actions": [
                 {
@@ -268,7 +268,7 @@
             ]
         },
         {
-            "name": "MenuControls",
+            "name": "menu",
             "id": "65a1cccf-7f1d-48d4-b416-c85cc02154da",
             "actions": [
                 {
