@@ -16,7 +16,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Player/Enemies
   - 
   - 
   - 
@@ -46,5 +46,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Player/Enemies
+    uniqueID: 1064855995
+    locked: 0
   m_RenderingLayers:
   - Default
+  - Player/Enemies
