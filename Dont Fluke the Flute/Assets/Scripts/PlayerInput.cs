@@ -13,7 +13,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private PointSystem pointSystem;
 
    
-    private List<NoteBehaviour>[] lanes = new List<NoteBehaviour>[4];
+    [SerializeField] private List<NoteBehaviour>[] lanes = new List<NoteBehaviour>[4];
 
     private void Awake()
     {
@@ -25,6 +25,12 @@ public class PlayerInput : MonoBehaviour
 
     private void OnEnable()
     {
+        hit.action.Enable();
+        left.action.Enable();
+        up.action.Enable();
+        down.action.Enable();
+        right.action.Enable();
+
         hit.action.performed += OnHit;
         left.action.performed += OnLeft;
         up.action.performed += OnUp;
@@ -34,6 +40,12 @@ public class PlayerInput : MonoBehaviour
 
     private void OnDisable()
     {
+        hit.action.Disable();
+        left.action.Disable();
+        up.action.Disable();
+        down.action.Disable();
+        right.action.Disable();
+
         hit.action.performed -= OnHit;
         left.action.performed -= OnLeft;
         up.action.performed -= OnUp;
@@ -53,15 +65,14 @@ public class PlayerInput : MonoBehaviour
     
     public void NoteMissed(int lane, NoteBehaviour note)
     {
+
+        Debug.Log("miss");
         int index = lane - 1;
         
-
-        
-
-            lanes[index].Remove(note);
+        lanes[index].Remove(note);
             
-            pointSystem.HandlePress("miss");
-            Destroy(note.gameObject);
+        pointSystem.HandlePress("miss");
+        Destroy(note.gameObject);
       
     }
 
@@ -74,6 +85,7 @@ public class PlayerInput : MonoBehaviour
        
         if (lanes[index].Count > 0)
         {
+            Debug.Log("hits something");
             NoteBehaviour note = lanes[index][0];
             string hitState = note.gameObject.tag;
             
@@ -92,6 +104,7 @@ public class PlayerInput : MonoBehaviour
     
     private void OnLeft(InputAction.CallbackContext context)
     {
+        Debug.Log("lefthit");
         HandleLaneHit(1);
     }
 

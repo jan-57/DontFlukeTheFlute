@@ -15,16 +15,16 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public partial class @Nokia: IInputActionCollection2, IDisposable
+public partial class @NokiaControls: IInputActionCollection2, IDisposable
 {
     public InputActionAsset asset { get; }
-    public @Nokia()
+    public @NokiaControls()
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""Nokia"",
     ""maps"": [
         {
-            ""name"": ""gameplay"",
+            ""name"": ""Gameplay"",
             ""id"": ""0e0179b8-510f-4cda-bd3b-c9d22a6ba51e"",
             ""actions"": [
                 {
@@ -290,7 +290,7 @@ public partial class @Nokia: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""menu"",
+            ""name"": ""Menu"",
             ""id"": ""65a1cccf-7f1d-48d4-b416-c85cc02154da"",
             ""actions"": [
                 {
@@ -404,29 +404,29 @@ public partial class @Nokia: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // gameplay
-        m_gameplay = asset.FindActionMap("gameplay", throwIfNotFound: true);
-        m_gameplay_hit = m_gameplay.FindAction("hit", throwIfNotFound: true);
-        m_gameplay_left = m_gameplay.FindAction("left", throwIfNotFound: true);
-        m_gameplay_right = m_gameplay.FindAction("right", throwIfNotFound: true);
-        m_gameplay_up = m_gameplay.FindAction("up", throwIfNotFound: true);
-        m_gameplay_down = m_gameplay.FindAction("down", throwIfNotFound: true);
+        // Gameplay
+        m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
+        m_Gameplay_hit = m_Gameplay.FindAction("hit", throwIfNotFound: true);
+        m_Gameplay_left = m_Gameplay.FindAction("left", throwIfNotFound: true);
+        m_Gameplay_right = m_Gameplay.FindAction("right", throwIfNotFound: true);
+        m_Gameplay_up = m_Gameplay.FindAction("up", throwIfNotFound: true);
+        m_Gameplay_down = m_Gameplay.FindAction("down", throwIfNotFound: true);
         // test
         m_test = asset.FindActionMap("test", throwIfNotFound: true);
         m_test_up = m_test.FindAction("up", throwIfNotFound: true);
         m_test_Newaction1 = m_test.FindAction("New action1", throwIfNotFound: true);
-        // menu
-        m_menu = asset.FindActionMap("menu", throwIfNotFound: true);
-        m_menu_PressEnter = m_menu.FindAction("PressEnter", throwIfNotFound: true);
-        m_menu_ScrollUp = m_menu.FindAction("ScrollUp", throwIfNotFound: true);
-        m_menu_ScrollDown = m_menu.FindAction("ScrollDown", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_PressEnter = m_Menu.FindAction("PressEnter", throwIfNotFound: true);
+        m_Menu_ScrollUp = m_Menu.FindAction("ScrollUp", throwIfNotFound: true);
+        m_Menu_ScrollDown = m_Menu.FindAction("ScrollDown", throwIfNotFound: true);
     }
 
-    ~@Nokia()
+    ~@NokiaControls()
     {
-        UnityEngine.Debug.Assert(!m_gameplay.enabled, "This will cause a leak and performance issues, Nokia.gameplay.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_test.enabled, "This will cause a leak and performance issues, Nokia.test.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_menu.enabled, "This will cause a leak and performance issues, Nokia.menu.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Gameplay.enabled, "This will cause a leak and performance issues, NokiaControls.Gameplay.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_test.enabled, "This will cause a leak and performance issues, NokiaControls.test.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Menu.enabled, "This will cause a leak and performance issues, NokiaControls.Menu.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -485,24 +485,24 @@ public partial class @Nokia: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // gameplay
-    private readonly InputActionMap m_gameplay;
+    // Gameplay
+    private readonly InputActionMap m_Gameplay;
     private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
-    private readonly InputAction m_gameplay_hit;
-    private readonly InputAction m_gameplay_left;
-    private readonly InputAction m_gameplay_right;
-    private readonly InputAction m_gameplay_up;
-    private readonly InputAction m_gameplay_down;
+    private readonly InputAction m_Gameplay_hit;
+    private readonly InputAction m_Gameplay_left;
+    private readonly InputAction m_Gameplay_right;
+    private readonly InputAction m_Gameplay_up;
+    private readonly InputAction m_Gameplay_down;
     public struct GameplayActions
     {
-        private @Nokia m_Wrapper;
-        public GameplayActions(@Nokia wrapper) { m_Wrapper = wrapper; }
-        public InputAction @hit => m_Wrapper.m_gameplay_hit;
-        public InputAction @left => m_Wrapper.m_gameplay_left;
-        public InputAction @right => m_Wrapper.m_gameplay_right;
-        public InputAction @up => m_Wrapper.m_gameplay_up;
-        public InputAction @down => m_Wrapper.m_gameplay_down;
-        public InputActionMap Get() { return m_Wrapper.m_gameplay; }
+        private @NokiaControls m_Wrapper;
+        public GameplayActions(@NokiaControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @hit => m_Wrapper.m_Gameplay_hit;
+        public InputAction @left => m_Wrapper.m_Gameplay_left;
+        public InputAction @right => m_Wrapper.m_Gameplay_right;
+        public InputAction @up => m_Wrapper.m_Gameplay_up;
+        public InputAction @down => m_Wrapper.m_Gameplay_down;
+        public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
@@ -561,7 +561,7 @@ public partial class @Nokia: IInputActionCollection2, IDisposable
             AddCallbacks(instance);
         }
     }
-    public GameplayActions @gameplay => new GameplayActions(this);
+    public GameplayActions @Gameplay => new GameplayActions(this);
 
     // test
     private readonly InputActionMap m_test;
@@ -570,8 +570,8 @@ public partial class @Nokia: IInputActionCollection2, IDisposable
     private readonly InputAction m_test_Newaction1;
     public struct TestActions
     {
-        private @Nokia m_Wrapper;
-        public TestActions(@Nokia wrapper) { m_Wrapper = wrapper; }
+        private @NokiaControls m_Wrapper;
+        public TestActions(@NokiaControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @up => m_Wrapper.m_test_up;
         public InputAction @Newaction1 => m_Wrapper.m_test_Newaction1;
         public InputActionMap Get() { return m_Wrapper.m_test; }
@@ -617,20 +617,20 @@ public partial class @Nokia: IInputActionCollection2, IDisposable
     }
     public TestActions @test => new TestActions(this);
 
-    // menu
-    private readonly InputActionMap m_menu;
+    // Menu
+    private readonly InputActionMap m_Menu;
     private List<IMenuActions> m_MenuActionsCallbackInterfaces = new List<IMenuActions>();
-    private readonly InputAction m_menu_PressEnter;
-    private readonly InputAction m_menu_ScrollUp;
-    private readonly InputAction m_menu_ScrollDown;
+    private readonly InputAction m_Menu_PressEnter;
+    private readonly InputAction m_Menu_ScrollUp;
+    private readonly InputAction m_Menu_ScrollDown;
     public struct MenuActions
     {
-        private @Nokia m_Wrapper;
-        public MenuActions(@Nokia wrapper) { m_Wrapper = wrapper; }
-        public InputAction @PressEnter => m_Wrapper.m_menu_PressEnter;
-        public InputAction @ScrollUp => m_Wrapper.m_menu_ScrollUp;
-        public InputAction @ScrollDown => m_Wrapper.m_menu_ScrollDown;
-        public InputActionMap Get() { return m_Wrapper.m_menu; }
+        private @NokiaControls m_Wrapper;
+        public MenuActions(@NokiaControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @PressEnter => m_Wrapper.m_Menu_PressEnter;
+        public InputAction @ScrollUp => m_Wrapper.m_Menu_ScrollUp;
+        public InputAction @ScrollDown => m_Wrapper.m_Menu_ScrollDown;
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
@@ -677,7 +677,7 @@ public partial class @Nokia: IInputActionCollection2, IDisposable
             AddCallbacks(instance);
         }
     }
-    public MenuActions @menu => new MenuActions(this);
+    public MenuActions @Menu => new MenuActions(this);
     public interface IGameplayActions
     {
         void OnHit(InputAction.CallbackContext context);

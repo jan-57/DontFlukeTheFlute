@@ -1,41 +1,87 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI;
 
-public class InputManager : MonoBehaviour
+public class SoundTrackManager : MonoBehaviour
 {
-    [SerializeField] private GameObject[] soundTracks;
-    private Nokia controls;
+    [SerializeField] private GameObject[] musicList;
+    [SerializeField] private GameObject[] noteList;
+    [SerializeField] private float noteDelay;
+    private NokiaControls controls;
 
     private void Awake()
     {
-        controls = new Nokia();
+        controls = new NokiaControls();
     }
-
 
     public void SwitchToUIControls()
     {
         
-        controls.gameplay.Disable();
-        controls.menu.Enable();
+        controls.Gameplay.Disable();
+        controls.Menu.Enable();
     }
 
     public void SwitchToGameplayControls()
     {
         
-        controls.menu.Disable();
-        controls.gameplay.Enable();
+        controls.Menu.Disable();
+        controls.Gameplay.Enable();
     }
 
     public void StartSoundTrack1()
     {
+        noteList[0].SetActive(true);
+        Invoke("music1", noteDelay);
+    }
+    private void music1()
+    {
+        musicList[0].SetActive(true);
+        Invoke("StopSoundTracks", 100);
+    }
 
+    public void StartSoundTrack2()
+    {
+        noteList[1].SetActive(true);
+        Invoke("music2", noteDelay);
+    }
+    private void music2()
+    {
+        musicList[1].SetActive(true);
+        Invoke("StopSoundTracks", 65);
+    }
+    public void StartSoundTrack3()
+    {
+        noteList[2].SetActive(true);
+        Invoke("music3", noteDelay);
+    }
+    private void music3()
+    {
+        musicList[2].SetActive(true);
+        Invoke("StopSoundTracks", 32);
     }
 
     public void StopSoundTracks()
     {
-        for (int i = 0; i < soundTracks.Length; i++)
+        for (int i = 0; i < musicList.Length; i++)
         {
-            soundTracks[i].SetActive(false);
+            musicList[i].SetActive(false);
+            noteList[i].SetActive(false);
         }
     }
+
+    public void SwitchActionMap(bool value)
+    {
+        if (value)
+        {
+            controls.Gameplay.Enable();
+            controls.Menu.Disable();
+        }
+        else
+        {
+            controls.Gameplay.Disable();
+            controls.Menu.Enable();
+        }
+    }
+
+
 }
