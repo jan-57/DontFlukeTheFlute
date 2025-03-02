@@ -132,9 +132,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 6
-        width: 35
-        height: 32
+        y: 0
+        width: 84
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,10 +153,10 @@ TextureImporter:
       name: PlayerDamage_1
       rect:
         serializedVersion: 2
-        x: 83
-        y: 6
-        width: 36
-        height: 32
+        x: 84
+        y: 0
+        width: 84
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -175,10 +175,10 @@ TextureImporter:
       name: PlayerDamage_2
       rect:
         serializedVersion: 2
-        x: 167
-        y: 6
-        width: 36
-        height: 32
+        x: 168
+        y: 0
+        width: 84
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,10 +197,10 @@ TextureImporter:
       name: PlayerDamage_3
       rect:
         serializedVersion: 2
-        x: 251
-        y: 6
-        width: 36
-        height: 32
+        x: 252
+        y: 0
+        width: 84
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -219,10 +219,10 @@ TextureImporter:
       name: PlayerDamage_4
       rect:
         serializedVersion: 2
-        x: 335
-        y: 6
-        width: 36
-        height: 32
+        x: 336
+        y: 0
+        width: 84
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -241,10 +241,10 @@ TextureImporter:
       name: PlayerDamage_5
       rect:
         serializedVersion: 2
-        x: 419
-        y: 6
-        width: 36
-        height: 32
+        x: 420
+        y: 0
+        width: 84
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -263,7 +263,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 8ebbabc99521b0948ae70d358aa7f156
     internalID: 0
     vertices: []
     indices: 
