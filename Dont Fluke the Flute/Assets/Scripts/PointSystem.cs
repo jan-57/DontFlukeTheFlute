@@ -17,15 +17,13 @@ public class PointSystem : MonoBehaviour
         points = 0;
         currentLife = maxLifePoints;
         combo = 1;
-        Debug.Log("PointSystem reset: Punkte, Leben und Combo zurückgesetzt.");
+        
     }
 
-    // Verarbeitet einen Treffer basierend auf dem Noten-Zustand.
-    // "fast", "good" und "late" erhöhen die Combo und geben Punkte.
-    // "bruh" und "miss" setzen die Combo zurück und kosten ein Leben.
+    
     public bool HandlePress(string accuracy)
     {
-        Debug.Log($"HandlePress: Verarbeite Zustand '{accuracy}'.");
+        
         switch (accuracy)
         {
             case "fast":
@@ -46,7 +44,7 @@ public class PointSystem : MonoBehaviour
                 TakeDamage();
                 return false;
             default:
-                Debug.LogWarning("Unbekannter Noten-Zustand: " + accuracy);
+                
                 return false;
         }
     }
@@ -54,7 +52,7 @@ public class PointSystem : MonoBehaviour
     private bool TakeDamage()
     {
         currentLife--;
-        Debug.Log($"TakeDamage: Leben verringert. Aktuelles Leben: {currentLife}");
+       
         return currentLife > 0;
     }
 }
