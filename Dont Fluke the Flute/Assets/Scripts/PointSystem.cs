@@ -28,7 +28,7 @@ public class PointSystem : MonoBehaviour
             scoreText.text = points.ToString();
         }
        
-        
+        playerAnimator.SetInteger("Health", currentLife);
     }
 
     public void Reset()
@@ -36,6 +36,8 @@ public class PointSystem : MonoBehaviour
         
         points = 0;
         currentLife = maxLifePoints;
+        playerAnimator.SetInteger("Health", maxLifePoints);
+        snakeAnimator.SetBool("PlayerDeath", false);
         combo = 1;
         
     }
@@ -73,25 +75,28 @@ public class PointSystem : MonoBehaviour
     {                           // dont forget that you can chnage the max health amount in the unity inspector under the object NoteDetection
 
         currentLife--;
+        playerAnimator.SetTrigger("Hurt");
+        snakeAnimator.SetTrigger("SnakeAttack");
 
-
+        if (currentLife < 1)
+        {
+            snakeAnimator.SetBool("PlayerDeath", true);
+        }
+        
+        
         if (currentLife > 0)
         {
             currentLife--;
-
+            
             if (currentLife >= 0 && hearts.Length > currentLife)
             {
                 hearts[currentLife]?.SetActive(false);
-                snakeAnimator.SetTrigger("Snake-AttackAnimation");
-                playerAnimator.SetTrigger("Hurt");
+                
             }
         }
         
-        if (currentLife == 0 )
-        {
-            playerAnimator.SetTrigger("Death");
-            
-        }
+        
+
     }
 }
 
