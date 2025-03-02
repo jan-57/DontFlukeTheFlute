@@ -10,7 +10,12 @@ public class PointSystem : MonoBehaviour
     private int combo;
     [SerializeField] SoundTrackManager soundTrackManager;
     [SerializeField] MenuScript menuScript;
-
+    
+    [SerializeField] private GameObject[] hearts;
+    
+    [SerializeField] private Animator playerAnimator; 
+    [SerializeField] private Animator snakeAnimator;
+    
     private void OnEnable()
     {
         Reset();
@@ -68,14 +73,25 @@ public class PointSystem : MonoBehaviour
     {                           // dont forget that you can chnage the max health amount in the unity inspector under the object NoteDetection
 
         currentLife--;
-       
-        if(currentLife < 1)
-        {
 
-            soundTrackManager.StopSoundTracks();
-            
+
+        if (currentLife > 0)
+        {
+            currentLife--;
+
+            if (currentLife >= 0 && hearts.Length > currentLife)
+            {
+                hearts[currentLife]?.SetActive(false);
+                snakeAnimator.SetTrigger("Snake-AttackAnimation");
+                playerAnimator.SetTrigger("Hurt");
+            }
         }
         
+        if (currentLife == 0 )
+        {
+            playerAnimator.SetTrigger("Death");
+            
+        }
     }
 }
 
