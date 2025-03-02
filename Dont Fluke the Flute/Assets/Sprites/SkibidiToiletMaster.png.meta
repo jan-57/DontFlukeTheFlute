@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SkibidiToiletMaster_0: -2959220851685983153
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,5 +1,8 @@
+using NUnit.Framework;
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 public class PointSystem : MonoBehaviour
 {
@@ -10,8 +13,8 @@ public class PointSystem : MonoBehaviour
     private int combo;
     [SerializeField] SoundTrackManager soundTrackManager;
     [SerializeField] MenuScript menuScript;
-    
-    [SerializeField] private GameObject[] hearts;
+
+    [SerializeField] private List<GameObject> hearts = new List<GameObject>();
     
     [SerializeField] private Animator playerAnimator; 
     [SerializeField] private Animator snakeAnimator;
@@ -39,7 +42,11 @@ public class PointSystem : MonoBehaviour
         playerAnimator.SetInteger("Health", maxLifePoints);
         snakeAnimator.SetBool("PlayerDeath", false);
         combo = 1;
-        
+        for (int i = 0; i < hearts.Count; i++)
+        {
+            hearts[i].SetActive(true);
+        }
+
     }
 
     
@@ -77,26 +84,31 @@ public class PointSystem : MonoBehaviour
         currentLife--;
         playerAnimator.SetTrigger("Hurt");
         snakeAnimator.SetTrigger("SnakeAttack");
+        RemoveHeart();
 
         if (currentLife < 1)
         {
             snakeAnimator.SetBool("PlayerDeath", true);
+            soundTrackManager.StopSoundTracks();
         }
-        
-        
-        if (currentLife > 0)
-        {
-            currentLife--;
-            
-            if (currentLife >= 0 && hearts.Length > currentLife)
-            {
-                hearts[currentLife]?.SetActive(false);
-                
-            }
-        }
-        
+
         
 
+
+
     }
+
+    private void RemoveHeart()
+    {
+        if(currentLife > -1)
+        {
+
+            hearts[currentLife].SetActive(false);
+
+        }
+       
+    }
+
+   
 }
 

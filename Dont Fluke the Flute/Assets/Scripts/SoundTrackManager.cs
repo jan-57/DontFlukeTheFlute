@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using static UnityEngine.Rendering.DebugUI;
 
@@ -6,14 +7,37 @@ public class SoundTrackManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] musicList;
     [SerializeField] private GameObject[] noteList;
+    [SerializeField] private AudioSource[] audioSources;
     [SerializeField] private float noteDelay;
     [SerializeField] private GameObject menuSound;
     [SerializeField] private PlayerInput controls;
     [SerializeField] private MenuScript menuScript;
     [SerializeField] private PointSystem pointSystem;
-    private int lastSong;
+    [SerializeField] private int lastSong;
+    private bool wasPlaying = false;
 
+    private void Update()
+    {
+        if (audioSources[lastSong - 1] == null) return;
 
+        
+        if (wasPlaying && !audioSources[lastSong - 1].isPlaying)
+        {
+            Debug.Log("Audio has stopped!");
+            wasPlaying = false;
+            OnAudioStopped(); 
+        }
+
+        
+        wasPlaying = audioSources[lastSong - 1].isPlaying;
+    }
+
+    private void OnAudioStopped()
+    {
+        StopSoundTracks();
+
+        Debug.Log("Perform cleanup or switch tracks.");
+    }
 
     public void SwitchToUIControls()
     {
@@ -24,46 +48,35 @@ public class SoundTrackManager : MonoBehaviour
     public void SwitchToGameplayControls()
     {
         controls.SwitchCurrentActionMap("Gameplay");
+      
         menuSound.SetActive(false);
     }
 
     public void StartSoundTrack1()
     {
         noteList[0].SetActive(true);
-        Invoke("music1", noteDelay);
+        Invoke("PlayMusic", noteDelay);
         lastSong = 1;
     }
-    private void music1()
-    {
-        musicList[0].SetActive(true);
-        Invoke("StopSoundTracks", 100);
-    }
+   
 
     
 
     public void StartSoundTrack2()
     {
         noteList[1].SetActive(true);
-        Invoke("music2", noteDelay);
+        Invoke("PlayMusic", noteDelay);
         lastSong = 2;
     }
-    private void music2()
-    {
-        musicList[1].SetActive(true);
-        Invoke("StopSoundTracks", 65);
-    }
+    
    
     public void StartSoundTrack3()
     {
-        noteList[2].SetActive(true);
-        Invoke("music3", noteDelay);
+        noteList[3].SetActive(true);
+        Invoke("PlayMusic", noteDelay);
         lastSong = 4;
     }
-    private void music3()
-    {
-        musicList[2].SetActive(true);
-        Invoke("StopSoundTracks", 32);
-    }
+    
    
 
     public void StopSoundTracks()
@@ -82,6 +95,11 @@ public class SoundTrackManager : MonoBehaviour
         menuScript.SwitchScreen(lastSong);
         menuScript.SetGaming(false);
    }
+
+   private void PlayMusic()
+    {
+        musicList[lastSong - 1].SetActive(true);
+    }
 
 
 }
