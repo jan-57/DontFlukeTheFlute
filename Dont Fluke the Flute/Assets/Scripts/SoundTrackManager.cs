@@ -7,31 +7,31 @@ public class SoundTrackManager : MonoBehaviour
     [SerializeField] private GameObject[] musicList;
     [SerializeField] private GameObject[] noteList;
     [SerializeField] private float noteDelay;
-    private NokiaControls controls;
+    [SerializeField] private GameObject menuSound;
+    [SerializeField] private PlayerInput controls;
+    [SerializeField] private MenuScript menuScript;
+    [SerializeField] private PointSystem pointSystem;
+    private int lastSong;
 
-    private void Awake()
-    {
-        controls = new NokiaControls();
-    }
+
 
     public void SwitchToUIControls()
     {
-        
-        controls.Gameplay.Disable();
-        controls.Menu.Enable();
+        controls.SwitchCurrentActionMap("Menu");
+        menuSound.SetActive(true);
     }
 
     public void SwitchToGameplayControls()
     {
-        
-        controls.Menu.Disable();
-        controls.Gameplay.Enable();
+        controls.SwitchCurrentActionMap("Gameplay");
+        menuSound.SetActive(false);
     }
 
     public void StartSoundTrack1()
     {
         noteList[0].SetActive(true);
         Invoke("music1", noteDelay);
+        lastSong = 1;
     }
     private void music1()
     {
@@ -39,26 +39,32 @@ public class SoundTrackManager : MonoBehaviour
         Invoke("StopSoundTracks", 100);
     }
 
+    
+
     public void StartSoundTrack2()
     {
         noteList[1].SetActive(true);
         Invoke("music2", noteDelay);
+        lastSong = 2;
     }
     private void music2()
     {
         musicList[1].SetActive(true);
         Invoke("StopSoundTracks", 65);
     }
+   
     public void StartSoundTrack3()
     {
         noteList[2].SetActive(true);
         Invoke("music3", noteDelay);
+        lastSong = 4;
     }
     private void music3()
     {
         musicList[2].SetActive(true);
         Invoke("StopSoundTracks", 32);
     }
+   
 
     public void StopSoundTracks()
     {
@@ -67,21 +73,15 @@ public class SoundTrackManager : MonoBehaviour
             musicList[i].SetActive(false);
             noteList[i].SetActive(false);
         }
+        Invoke("BackToMenu",6);
     }
 
-    public void SwitchActionMap(bool value)
-    {
-        if (value)
-        {
-            controls.Gameplay.Enable();
-            controls.Menu.Disable();
-        }
-        else
-        {
-            controls.Gameplay.Disable();
-            controls.Menu.Enable();
-        }
-    }
+   private void BackToMenu()
+   {
+        pointSystem.Reset();
+        menuScript.SwitchScreen(lastSong);
+        menuScript.SetGaming(false);
+   }
 
 
 }

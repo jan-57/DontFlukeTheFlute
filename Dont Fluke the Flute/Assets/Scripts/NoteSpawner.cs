@@ -5,7 +5,7 @@ public class NoteSpawner : MonoBehaviour
     [SerializeField] private float noteSpeed;
     [SerializeField] private GameObject[] notePrefabs;
     [SerializeField] private Transform[] noteSpawnPoints;
-    [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private PlayerInputManager playerInput;
 
     
    

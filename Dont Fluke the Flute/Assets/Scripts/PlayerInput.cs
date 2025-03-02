@@ -2,15 +2,16 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerInputManager : MonoBehaviour
 {
-    [SerializeField] private InputActionReference hit; 
+    
     [SerializeField] private InputActionReference left;
     [SerializeField] private InputActionReference up;
     [SerializeField] private InputActionReference down;
     [SerializeField] private InputActionReference right;
 
     [SerializeField] private PointSystem pointSystem;
+    [SerializeField] private MenuScript menuScript;
 
    
     [SerializeField] private List<NoteBehaviour>[] lanes = new List<NoteBehaviour>[4];
@@ -25,13 +26,13 @@ public class PlayerInput : MonoBehaviour
 
     private void OnEnable()
     {
-        hit.action.Enable();
+      
         left.action.Enable();
         up.action.Enable();
         down.action.Enable();
         right.action.Enable();
 
-        hit.action.performed += OnHit;
+       
         left.action.performed += OnLeft;
         up.action.performed += OnUp;
         down.action.performed += OnDown;
@@ -40,13 +41,13 @@ public class PlayerInput : MonoBehaviour
 
     private void OnDisable()
     {
-        hit.action.Disable();
+      
         left.action.Disable();
         up.action.Disable();
         down.action.Disable();
         right.action.Disable();
 
-        hit.action.performed -= OnHit;
+        
         left.action.performed -= OnLeft;
         up.action.performed -= OnUp;
         down.action.performed -= OnDown;
@@ -104,28 +105,37 @@ public class PlayerInput : MonoBehaviour
     
     private void OnLeft(InputAction.CallbackContext context)
     {
-        Debug.Log("lefthit");
-        HandleLaneHit(1);
+        if (menuScript.GetGaming())
+        {
+            HandleLaneHit(1);
+        }
+        
     }
 
     private void OnUp(InputAction.CallbackContext context)
     {
-        HandleLaneHit(2);
+        if (menuScript.GetGaming())
+        {
+            HandleLaneHit(2);
+        }
     }
 
     private void OnDown(InputAction.CallbackContext context)
     {
-        HandleLaneHit(3);
+        if (menuScript.GetGaming())
+        {
+            HandleLaneHit(3);
+        }
     }
 
     private void OnRight(InputAction.CallbackContext context)
     {
-        HandleLaneHit(4);
+        if (menuScript.GetGaming())
+        {
+            HandleLaneHit(4);
+        }
     }
 
-    
-    private void OnHit(InputAction.CallbackContext context)
-    {
-    }
+  
 }
 

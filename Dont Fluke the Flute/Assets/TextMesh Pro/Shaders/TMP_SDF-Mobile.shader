@@ -1,7 +1,7 @@
-﻿// Simplified SDF shader:
+﻿// Simplified SDF shader with hard thresholds
 // - No Shading Option (bevel / bump / env map)
 // - No Glow Option
-// - Softness is applied on both side of the outline
+// - Softness is applied on both sides of the outline
 
 Shader "TextMeshPro/Mobile/Distance Field" {
 
@@ -207,37 +207,40 @@ SubShader {
 		{
 			UNITY_SETUP_INSTANCE_ID(input);
 
+			// Sample main texture and compute "distance" factor
 			half d = tex2D(_MainTex, input.texcoord0.xy).a * input.param.x;
-			half4 c = input.faceColor * saturate(d - input.param.w);
+			// Use hard cutoff: no smooth transition between values.
+			half4 c = input.faceColor * step(input.param.w, d);
 
 			#ifdef OUTLINE_ON
-			c = lerp(input.outlineColor, input.faceColor, saturate(d - input.param.z));
-			c *= saturate(d - input.param.y);
+				// Replace smooth blending with hard threshold
+				c = lerp(input.outlineColor, input.faceColor, step(input.param.z, d));
+				c *= step(input.param.y, d);
 			#endif
 
 			#if UNDERLAY_ON
-			d = tex2D(_MainTex, input.texcoord1.xy).a * input.underlayParam.x;
-			c += float4(_UnderlayColor.rgb * _UnderlayColor.a, _UnderlayColor.a) * saturate(d - input.underlayParam.y) * (1 - c.a);
+				d = tex2D(_MainTex, input.texcoord1.xy).a * input.underlayParam.x;
+				c += float4(_UnderlayColor.rgb * _UnderlayColor.a, _UnderlayColor.a) * step(input.underlayParam.y, d) * (1 - c.a);
 			#endif
 
 			#if UNDERLAY_INNER
-			half sd = saturate(d - input.param.z);
-			d = tex2D(_MainTex, input.texcoord1.xy).a * input.underlayParam.x;
-			c += float4(_UnderlayColor.rgb * _UnderlayColor.a, _UnderlayColor.a) * (1 - saturate(d - input.underlayParam.y)) * sd * (1 - c.a);
+				half sd = step(input.param.z, d);
+				d = tex2D(_MainTex, input.texcoord1.xy).a * input.underlayParam.x;
+				c += float4(_UnderlayColor.rgb * _UnderlayColor.a, _UnderlayColor.a) * (1 - step(input.underlayParam.y, d)) * sd * (1 - c.a);
 			#endif
 
-			// Alternative implementation to UnityGet2DClipping with support for softness.
+			// Clipping based on UI Clip Rect
 			#if UNITY_UI_CLIP_RECT
-			half2 m = saturate((_ClipRect.zw - _ClipRect.xy - abs(input.mask.xy)) * input.mask.zw);
-			c *= m.x * m.y;
+				half2 m = step(0, (_ClipRect.zw - _ClipRect.xy - abs(input.mask.xy)) * input.mask.zw);
+				c *= m.x * m.y;
 			#endif
 
 			#if (UNDERLAY_ON | UNDERLAY_INNER)
-			c *= input.texcoord1.z;
+				c *= input.texcoord1.z;
 			#endif
 
 			#if UNITY_UI_ALPHACLIP
-			clip(c.a - 0.001);
+				clip(c.a - 0.001);
 			#endif
 
 			return c;

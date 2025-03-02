@@ -5,7 +5,7 @@ public class NoteBehaviour : MonoBehaviour
     private float speed;
     
     [SerializeField] private int laneNumber;
-    [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private PlayerInputManager playerInput;
 
     private void Start()
     {

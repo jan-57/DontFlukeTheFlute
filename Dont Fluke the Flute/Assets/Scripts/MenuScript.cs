@@ -14,6 +14,7 @@ public class MenuScript : MonoBehaviour
 
     [SerializeField] private int currentScreen = 0;
 
+   
     void Start()
     {
         mainMenuCanvas.SetActive(true);
@@ -21,7 +22,7 @@ public class MenuScript : MonoBehaviour
         level2Canvas.SetActive(false);
         gameCanvas.SetActive(false);
         level3Canvas.SetActive(false);
-        isGaming = false;
+        SetGaming(false);
     }
 
     // Update is called once per frame
@@ -71,7 +72,7 @@ public class MenuScript : MonoBehaviour
                     gameCanvas.SetActive(true);
                     SwitchScreen(3);
 
-                   // soundTrackManager.StartSoundTrack3();
+                   soundTrackManager.StartSoundTrack3();
 
                     Debug.Log("Screen 4, Enter Pressed");
                 }
@@ -88,11 +89,11 @@ public class MenuScript : MonoBehaviour
                     Debug.Log("Screen 1, Down, S, or Numpad 2 Pressed");
                 }
                 
-                if (currentScreen == 2)
+                else if (currentScreen == 2)
                 {
                     level2Canvas.SetActive(false);
                     level3Canvas.SetActive(true);
-                    SwitchScreen(3);
+                    SwitchScreen(4);
                     Debug.Log("Screen 2, Down, S, or Numpad 2 Pressed");
                 }
                 
@@ -108,11 +109,11 @@ public class MenuScript : MonoBehaviour
                     Debug.Log("Screen 2, Up Pressed");
                 }
                 
-                if (currentScreen == 4)
+                else if (currentScreen == 4)
                 {
                     level2Canvas.SetActive(true);
                     level3Canvas.SetActive(false);
-                    SwitchScreen(3);
+                    SwitchScreen(2);
                     Debug.Log("Screen 4, Down, S, or Numpad 2 Pressed");
                 }
             }
@@ -134,6 +135,17 @@ public class MenuScript : MonoBehaviour
     public void SetGaming(bool value)
     {
         isGaming = value;
-        soundTrackManager.SwitchActionMap(value);
+        if (value)
+        {
+            soundTrackManager.SwitchToGameplayControls();
+        }
+        else
+        {
+            soundTrackManager.SwitchToUIControls();
+        }
+    }
+    public bool GetGaming()
+    {
+        return isGaming;
     }
 }
