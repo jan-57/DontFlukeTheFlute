@@ -6,7 +6,7 @@ public class NoteBehaviour : MonoBehaviour
     
     [SerializeField] private int laneNumber;
     [SerializeField] private PlayerInputManager playerInput;
-
+    
     private void Start()
     {
         
@@ -53,4 +53,6 @@ public class NoteBehaviour : MonoBehaviour
             }
         }
     }
+
+  
 }

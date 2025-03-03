@@ -35,7 +35,7 @@ public class SoundTrackManager : MonoBehaviour
     private void OnAudioStopped()
     {
         StopSoundTracks();
-
+        pointSystem.BlinkScoreSwitch(true);
         Debug.Log("Perform cleanup or switch tracks.");
     }
 
@@ -91,14 +91,23 @@ public class SoundTrackManager : MonoBehaviour
 
    private void BackToMenu()
    {
-        pointSystem.Reset();
-        menuScript.SwitchScreen(lastSong);
-        menuScript.SetGaming(false);
+        if (menuScript.GetGaming())
+        {
+            pointSystem.Reset();
+            menuScript.SwitchScreen(lastSong);
+            menuScript.SetGaming(false);
+            pointSystem.BlinkScoreSwitch(false);
+        }
+        
    }
 
    private void PlayMusic()
     {
-        musicList[lastSong - 1].SetActive(true);
+        if (menuScript.GetGaming())
+        {
+            musicList[lastSong - 1].SetActive(true);
+        }
+        
     }
 
 

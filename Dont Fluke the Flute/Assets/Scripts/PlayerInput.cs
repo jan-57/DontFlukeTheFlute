@@ -13,6 +13,8 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] private PointSystem pointSystem;
     [SerializeField] private MenuScript menuScript;
 
+    [SerializeField] private GameObject hitFeedback;
+    [SerializeField] private GameObject leftOver;
    
     [SerializeField] private List<NoteBehaviour>[] lanes = new List<NoteBehaviour>[4];
 
@@ -66,13 +68,14 @@ public class PlayerInputManager : MonoBehaviour
     
     public void NoteMissed(int lane, NoteBehaviour note)
     {
-
+        LeftOver(note.gameObject.transform.position);
         Debug.Log("miss");
         int index = lane - 1;
         
         lanes[index].Remove(note);
             
         pointSystem.HandlePress("miss");
+        
         Destroy(note.gameObject);
       
     }
@@ -88,10 +91,12 @@ public class PlayerInputManager : MonoBehaviour
         {
             Debug.Log("hits something");
             NoteBehaviour note = lanes[index][0];
+            LeftOver(note.gameObject.transform.position);
             string hitState = note.gameObject.tag;
             
             pointSystem.HandlePress(hitState);
             lanes[index].RemoveAt(0);
+            
             Destroy(note.gameObject);
            
         }
@@ -108,6 +113,7 @@ public class PlayerInputManager : MonoBehaviour
         if (menuScript.GetGaming())
         {
             HandleLaneHit(1);
+            PressFeedback();
         }
         
     }
@@ -117,6 +123,7 @@ public class PlayerInputManager : MonoBehaviour
         if (menuScript.GetGaming())
         {
             HandleLaneHit(2);
+            PressFeedback();
         }
     }
 
@@ -125,6 +132,7 @@ public class PlayerInputManager : MonoBehaviour
         if (menuScript.GetGaming())
         {
             HandleLaneHit(3);
+            PressFeedback();
         }
     }
 
@@ -133,9 +141,24 @@ public class PlayerInputManager : MonoBehaviour
         if (menuScript.GetGaming())
         {
             HandleLaneHit(4);
+            PressFeedback();
         }
     }
 
+    private void PressFeedback()
+    {
+        hitFeedback.SetActive(false);
+        Invoke("EndFeedback", 0.1f);
+    }
+
+    private void EndFeedback()
+    {
+        hitFeedback.SetActive(true);
+    }
   
+    private void LeftOver(Vector2 position)
+    {
+        Instantiate(leftOver, new Vector3(position.x,position.y,99.5f), Quaternion.identity);
+    }
 }
 

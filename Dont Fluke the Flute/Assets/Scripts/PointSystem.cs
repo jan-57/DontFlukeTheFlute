@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using UnityEngine.InputSystem.Android;
 
 public class PointSystem : MonoBehaviour
 {
@@ -18,20 +19,45 @@ public class PointSystem : MonoBehaviour
     
     [SerializeField] private Animator playerAnimator; 
     [SerializeField] private Animator snakeAnimator;
-    
+
+    [SerializeField] private GameObject gameplayScreen;
+    [SerializeField] private int counter;
+    [SerializeField] private bool isBlinking;
+    [SerializeField] private int blinkdelay;
     private void OnEnable()
     {
         Reset();
+        counter = 0;
     }
 
     private void FixedUpdate()
     {
-        if (menuScript.GetGaming())
+        if (menuScript.GetGaming() && scoreText != null)
         {
             scoreText.text = points.ToString();
         }
        
         playerAnimator.SetInteger("Health", currentLife);
+
+        if (isBlinking && gameplayScreen.activeInHierarchy)
+        {
+            
+            
+                if (counter > blinkdelay)
+                {
+                    if (scoreText.gameObject.activeInHierarchy)
+                    {
+                        scoreText.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        scoreText.gameObject.SetActive(true);
+                    }
+                    counter = 0;
+                }
+                counter++;
+         
+        }
     }
 
     public void Reset()
@@ -88,6 +114,7 @@ public class PointSystem : MonoBehaviour
 
         if (currentLife < 1)
         {
+            BlinkScoreSwitch(true);
             snakeAnimator.SetBool("PlayerDeath", true);
             soundTrackManager.StopSoundTracks();
         }
@@ -107,6 +134,13 @@ public class PointSystem : MonoBehaviour
 
         }
        
+    }
+
+    public void BlinkScoreSwitch(bool value)
+    {
+
+        isBlinking = value;
+
     }
 
    

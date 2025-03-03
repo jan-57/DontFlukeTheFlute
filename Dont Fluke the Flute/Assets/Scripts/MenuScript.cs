@@ -9,6 +9,7 @@ public class MenuScript : MonoBehaviour
     [SerializeField] private GameObject level3Canvas;
     [SerializeField] private bool isGaming;
     [SerializeField] private SoundTrackManager soundTrackManager;
+    [SerializeField] private GameObject scoretext;
     
 
 
@@ -28,10 +29,10 @@ public class MenuScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (!isGaming)
         {
 
-        
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 if (currentScreen == 0)
@@ -50,6 +51,7 @@ public class MenuScript : MonoBehaviour
                     level1Canvas.SetActive(false);
 
                     soundTrackManager.StartSoundTrack1();
+                    scoretext.SetActive(true);
 
                     Debug.Log("Screen 1, Enter Pressed");
                 }
@@ -61,10 +63,17 @@ public class MenuScript : MonoBehaviour
                     SwitchScreen(3);
 
                     soundTrackManager.StartSoundTrack2();
+                    scoretext.SetActive(true);
 
                     Debug.Log("Screen 2, Enter Pressed");
                 }
-                
+                else if( currentScreen == 3)
+                {
+
+                    soundTrackManager.StopSoundTracks();
+                    
+
+                }
                 else if (currentScreen == 4)
                 {
                     SetGaming(true);
@@ -72,56 +81,61 @@ public class MenuScript : MonoBehaviour
                     gameCanvas.SetActive(true);
                     SwitchScreen(3);
 
-                   soundTrackManager.StartSoundTrack3();
+                    soundTrackManager.StartSoundTrack3();
+                    scoretext.SetActive(true);
 
                     Debug.Log("Screen 4, Enter Pressed");
                 }
-                
+
             }
 
-            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Keypad2))
-            {
-                if (currentScreen == 1)
-                {
-                    level2Canvas.SetActive(true);
-                    level1Canvas.SetActive(false);
-                    SwitchScreen(2);
-                    Debug.Log("Screen 1, Down, S, or Numpad 2 Pressed");
-                }
-                
-                else if (currentScreen == 2)
-                {
-                    level2Canvas.SetActive(false);
-                    level3Canvas.SetActive(true);
-                    SwitchScreen(4);
-                    Debug.Log("Screen 2, Down, S, or Numpad 2 Pressed");
-                }
-                
-            }
-
-            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Keypad8))
-            {
-                if (currentScreen == 2)
-                {
-                    level1Canvas.SetActive(true);
-                    level2Canvas.SetActive(false);
-                    SwitchScreen(1);
-                    Debug.Log("Screen 2, Up Pressed");
-                }
-                
-                else if (currentScreen == 4)
-                {
-                    level2Canvas.SetActive(true);
-                    level3Canvas.SetActive(false);
-                    SwitchScreen(2);
-                    Debug.Log("Screen 4, Down, S, or Numpad 2 Pressed");
-                }
-            }
-            
         }
+            if (!isGaming)
+            {
+                if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Keypad2))
+                {
+                    if (currentScreen == 1)
+                    {
+                        level2Canvas.SetActive(true);
+                        level1Canvas.SetActive(false);
+                        SwitchScreen(2);
+                        Debug.Log("Screen 1, Down, S, or Numpad 2 Pressed");
+                    }
+
+                    else if (currentScreen == 2)
+                    {
+                        level2Canvas.SetActive(false);
+                        level3Canvas.SetActive(true);
+                        SwitchScreen(4);
+                        Debug.Log("Screen 2, Down, S, or Numpad 2 Pressed");
+                    }
+
+                }
+            }
+            if (!isGaming)
+            {
+                if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Keypad8))
+                {
+                    if (currentScreen == 2)
+                    {
+                        level1Canvas.SetActive(true);
+                        level2Canvas.SetActive(false);
+                        SwitchScreen(1);
+                        Debug.Log("Screen 2, Up Pressed");
+                    }
+
+                    else if (currentScreen == 4)
+                    {
+                        level2Canvas.SetActive(true);
+                        level3Canvas.SetActive(false);
+                        SwitchScreen(2);
+                        Debug.Log("Screen 4, Down, S, or Numpad 2 Pressed");
+                    }
+                }
+
+            }
         
     }
-
     public void SwitchScreen(int newScreen)
     {
         mainMenuCanvas.SetActive(newScreen == 0);
