@@ -2,8 +2,8 @@ using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEngine.InputSystem.Android;
+
+
 
 public class PointSystem : MonoBehaviour
 {
