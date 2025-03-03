@@ -14,8 +14,13 @@ public class SoundTrackManager : MonoBehaviour
     [SerializeField] private MenuScript menuScript;
     [SerializeField] private PointSystem pointSystem;
     [SerializeField] private int lastSong;
+    [SerializeField] private bool isInterruptable;
     private bool wasPlaying = false;
 
+    private void Start()
+    {
+        isInterruptable = true;
+    }
     private void Update()
     {
         if (audioSources[lastSong - 1] == null) return;
@@ -81,12 +86,17 @@ public class SoundTrackManager : MonoBehaviour
 
     public void StopSoundTracks()
     {
-        for (int i = 0; i < musicList.Length; i++)
+        if (isInterruptable)
         {
-            musicList[i].SetActive(false);
-            noteList[i].SetActive(false);
+            isInterruptable = false;
+            for (int i = 0; i < musicList.Length; i++)
+            {
+                musicList[i].SetActive(false);
+                noteList[i].SetActive(false);
+            }
+            Invoke("BackToMenu", 6);
         }
-        Invoke("BackToMenu",6);
+        
     }
 
    private void BackToMenu()
@@ -97,6 +107,7 @@ public class SoundTrackManager : MonoBehaviour
             menuScript.SwitchScreen(lastSong);
             menuScript.SetGaming(false);
             pointSystem.BlinkScoreSwitch(false);
+            isInterruptable = true;
         }
         
    }
