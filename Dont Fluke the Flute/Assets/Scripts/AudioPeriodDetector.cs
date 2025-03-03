@@ -71,26 +71,25 @@ public class AudioPeriodDetector : MonoBehaviour
         }
     }
 
-
+    
     private bool CheckVolume()
     {
         if (!audioSource.isPlaying) return false;
 
-        audioSource.GetSpectrumData(samples, 0, FFTWindow.BlackmanHarris);
+        audioSource.GetOutputData(samples, 0);
 
         float sum = 0f;
+
         for (int i = 0; i < samples.Length; i++)
         {
-            sum += samples[i];
+            sum += samples[i] * samples[i];
         }
-
-        volume = sum / samples.Length;
+        volume = Mathf.Sqrt(sum / samples.Length); 
 
         return volume > threshold;
     }
 
-
-
+   
     private void OnSoundStart()
     {
         
