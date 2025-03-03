@@ -6,7 +6,7 @@ public class AudioPeriodDetector : MonoBehaviour
     [SerializeField] NoteSpawner noteSpawner;
     private AudioSource audioSource;  
     [SerializeField] private float threshold = 0.01f;   
-    [SerializeField] private int sampleSize = 10;          
+    [SerializeField] private int sampleSize = 1;          
     [SerializeField] private float minSilenceDuration = 0.01f;
     [SerializeField] private float minSoundDuration = 0.05f; 
 
@@ -71,25 +71,20 @@ public class AudioPeriodDetector : MonoBehaviour
         }
     }
 
-    
+
     private bool CheckVolume()
     {
         if (!audioSource.isPlaying) return false;
 
-        audioSource.GetOutputData(samples, 0);
+        float[] sample = new float[1]; // Single sample
+        audioSource.GetOutputData(sample, 0); // Get raw waveform data
 
-        float sum = 0f;
-
-        for (int i = 0; i < samples.Length; i++)
-        {
-            sum += samples[i] * samples[i];
-        }
-        volume = Mathf.Sqrt(sum / samples.Length); 
+        volume = Mathf.Abs(sample[0]); // Take absolute value as volume
 
         return volume > threshold;
     }
 
-   
+
     private void OnSoundStart()
     {
         
