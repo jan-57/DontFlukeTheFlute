@@ -16,6 +16,7 @@
 
 ## Gameplay Video
 
+[![Watch the demo](https://img.youtube.com/vi/RwOf-zMcJJU/0.jpg)](https://www.youtube.com/watch?v=RwOf-zMcJJU)
 
 ## Goals 
 
