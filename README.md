@@ -18,6 +18,10 @@
 
 [![Watch the demo](https://img.youtube.com/vi/RwOf-zMcJJU/0.jpg)](https://www.youtube.com/watch?v=RwOf-zMcJJU)
 
+## Check the game 
+
+https://jan57.itch.io/dont-fluke-the-flute
+
 ## Goals 
 
 - [X] Ideate the game theme
